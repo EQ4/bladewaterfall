@@ -1,13 +1,25 @@
+# configure bladeRF source path
+#BLADERFPATH=/home/benoit/bladeRF
+BLADERFSRC_PATH=$(HOME)/devel/bladeRF
+
+LIBUSB_CFLAGS=`pkg-config --cflags libusb`
+CFLAGS=$(LIBUSB_CFLAGS) -O4
+BLADERF_CFLAGS=-I$(BLADERFSRC_PATH)/host/build/common/include -I$(BLADERFSRC_PATH)/host/common/include
+GL_LIBS=-lGL -lglut
+LIBS=-L/usr/local/lib64 -lbladeRF -lpthread -lm $(GL_LIBS)
+
+
 all: fft_blade
 
 
 fft_blade: ui.c proc.c fft_blade.c blde.h fft.c
-	g++  -O4   -lGL -lglut -DENABLE_LIBBLADERF_SYNC -DHAVE_LIBUSB_GET_VERSION -I/home/benoit/bladeRF/host/libraries/libbladeRF/include -I/home/benoit/bladeRF/host/libraries/libbladeRF/src -I/home/benoit/bladeRF/host/build/common/include -I/home/benoit/bladeRF/host/common/include -I/home/benoit/bladeRF/host/common/include/ -I/home/benoit/bladeRF/host/../firmware_common -I/home/benoit/bladeRF/host/libraries/libbladeRF/src -I/opt/local/include/libusb-1.0  -c    fft_blade.c -o fft_blade.c.o
-	g++   -O4 -c  -lGL -lglut ui.c -o ui.c.o	
-	cc  ui.c.o fft_blade.c.o libbladeRF.so.0  -o fft_blade  -lpthread -lm -lGL -lglut
+	g++  -O4  -DENABLE_LIBBLADERF_SYNC -DHAVE_LIBUSB_GET_VERSION  $(CFLAGS) $(BLADERF_CFLAGS) -c fft_blade.c -o fft_blade.c.o
+	g++  $(CFLAGS) -c  ui.c -o ui.c.o	
+	cc  ui.c.o fft_blade.c.o  -o fft_blade $(LIBS)
 
 
 
 clean:
 	-rm fft_blade
 	-rm -rf *.dSYM
+	-rm -rf *.o
