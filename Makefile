@@ -2,11 +2,11 @@
 #BLADERFPATH=/home/benoit/bladeRF
 BLADERFSRC_PATH=$(HOME)/devel/bladeRF
 
-LIBUSB_CFLAGS=`pkg-config --cflags libusb`
-CFLAGS=$(LIBUSB_CFLAGS) -O4
+LIBUSB_CFLAGS=`pkg-config --cflags libusb-1.0`
+CFLAGS=$(LIBUSB_CFLAGS) -O4 `pkg-config --cflags libbladeRF`
 BLADERF_CFLAGS=-I$(BLADERFSRC_PATH)/host/build/common/include -I$(BLADERFSRC_PATH)/host/common/include
 GL_LIBS=-lGL -lglut
-LIBS=-L/usr/local/lib64 -lbladeRF -lpthread -lm $(GL_LIBS)
+LIBS=`pkg-config --libs libbladeRF` -lpthread -lm $(GL_LIBS)
 
 all: fft_blade
 
