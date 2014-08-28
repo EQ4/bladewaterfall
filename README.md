@@ -10,7 +10,7 @@ Requires glut.
 
 run just as
 
-benoit_blade -f <frequency in hz> -b <bandwidth in Mhz>
+./fft_blade -f *frequency in hz* -b *bandwidth in Mhz*
 
 
 When running, use the arrow keys to move in frequency, 
@@ -19,3 +19,18 @@ escape to leave
 
 
 Thank you to the rtlsdr code bases and nuand sample codes as my initial organ bank
+
+----
+
+Notes
+=====
+
+For Mac you will need to use
+
+```
+  sudo port install freeglut
+```
+
+and maybe some others
+
+Configure your path to libbladerf
